@@ -4,7 +4,7 @@
     "parameters": {
         "aksClusterName": {
             "type": "string",
-            "defaultValue": "techademyaks-vmss",
+            "defaultValue": "techademyaks",
             "metadata": {
                 "description": "The name of the managed AKS Cluster resource"
             }

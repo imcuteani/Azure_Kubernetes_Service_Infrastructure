@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "aksClusterName": {
-            "value": "techademyaks-vmss"
+            "value": "techademyaks"
         },
         "dnsPrefix": {
             "value": "techademy" 
