@@ -1,0 +1,19 @@
+# Create http routing on AKS cluster 
+
+az aks create --resource-group techademy --name techademyaks --enable-addons http_application_routing
+
+# use the following command to retrieve the dns zone name 
+
+az aks show --resource-group techademy --name techademyaks --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName -o table
+
+# Remove the http routing 
+
+az aks disable-addons --addons http_application_routing --name myAKSCluster --resource-group myResourceGroup --no-wait
+
+# look for add-on 
+
+kubectl get deployments --namespace kube-system
+kubectl get services --namespace kube-system
+kubectl get configmaps --namespace kube-system
+kubectl get secrets --namespace kube-system
+

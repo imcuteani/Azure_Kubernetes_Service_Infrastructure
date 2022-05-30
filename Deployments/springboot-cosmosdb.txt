@@ -1,0 +1,53 @@
+az group create --name=cosmosdb-springboot-aks-rg --location=eastus
+
+# Create Cosmos db 
+
+az cosmosdb create --name <enter account name> --resource-group <enter resource group name>
+
+# Create Azure ACR 
+
+az acr create --resource-group cosmosdb-springboot-aks-rg --location eastus \
+    --name cosmosdbspringbootregistry --sku Basic
+
+# Create AKS cluster 
+
+az aks create \
+    --resource-group cosmosdb-springboot-aks-rg \
+    --name cosmosdb-springboot-aks \
+    --node-count 1 \
+    --generate-ssh-keys \
+    --attach-acr cosmosdbspringbootregistry \
+    --dns-name-prefix=cosmosdb-springboot-aks-app
+
+# Get access credentials 
+
+az aks get-credentials --resource-group=cosmosdb-springboot-aks-rg --name=cosmosdb-springboot-aks
+
+kubectl get nodes
+
+# clone the app 
+
+git clone https://github.com/Azure-Samples/cosmosdb-springboot-aks.git
+
+cd cosmosdb-springboot-aks
+
+# use maven to build the app 
+
+./mvnw install
+
+# Login to Azure ACR & deploy the app 
+
+docker build -t cosmosdbspringbootregistry.azurecr.io/spring-cosmos-app:v1 .
+
+# login into the ACR 
+
+az acr login -n cosmosdbspringbootregistry
+
+docker push cosmosdbspringbootregistry.azurecr.io/spring-cosmos-app:v1
+
+az acr repository list --name cosmosdbspringbootregistry --output table
+
+
+
+
+

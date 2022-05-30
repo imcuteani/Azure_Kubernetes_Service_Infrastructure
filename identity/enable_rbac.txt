@@ -1,0 +1,4 @@
+# enable RBAC to existing AKS cluster
+
+az aks update -g myResourceGroup -n myAKSCluster --enable-azure-rbac
+

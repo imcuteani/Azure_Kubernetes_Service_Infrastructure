@@ -1,0 +1,23 @@
+# Deployment of a django application with PostgreSQL db 
+
+az group create --name techademy --location eastasia
+
+# create aks cluster
+
+az aks create --resource-group  techademy --name techademyaks --node-count 1 --generate-ssh-keys
+
+# connect to the cluster 
+
+az aks get-credentials --resource-group techademy --name techademyaks
+
+# get the node pools 
+
+kubectl get nodes
+
+# create Azure PostgreSQL db server 
+
+az postgres flexible-server create --public-access all
+
+
+
+
