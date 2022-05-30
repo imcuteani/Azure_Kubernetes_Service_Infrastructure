@@ -1,0 +1,23 @@
+# The manifest to deploy storage class 
+apiVersion: v1
+kind: StorageClass 
+metadata: 
+ name: managed-premium-retain
+provisioner: disk.csi.azure.com
+parameters: 
+ skuName: Premium_LRS
+reclaimPolicy: Retain  
+volumeBindingMode: WaitForFirstConsumer 
+allowVolumeExpansion: true 
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: azure-managed-disk
+spec:
+  accessModes:
+    - ReadWriteOnce
+storageClassName: managed-premium-retain
+resources: 
+ requests:
+  storage: 5Gi    

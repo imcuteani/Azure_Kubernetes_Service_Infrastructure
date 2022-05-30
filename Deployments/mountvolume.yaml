@@ -1,0 +1,19 @@
+# This example to demonstrate how to mount volume at /mnt/azure
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    name: nginx-demo
+spec:
+  containers:
+  - name: myfrontend
+    image: mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine
+    volumeMounts:
+    - mountPath: "/mnt/azure"
+      name: volume  
+  volumes:
+    - name: volume  
+      persistentVolumeClaim:
+        claimName: azure-managed-disk  

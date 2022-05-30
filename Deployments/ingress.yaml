@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-one
+  labels:
+    app: busybox-one
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox-one
+  template:
+    metadata:
+      labels:
+        app: busybox-one
+    spec:
+      containers:
+      - name: busybox
+        image: k8s.gcr.io/e2e-test-images/busybox:1.29-1
+        command:
+          - "/bin/sleep"
+          - "10000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox-one
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+  selector:
+    app: busybox-one

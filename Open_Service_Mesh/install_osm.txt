@@ -1,0 +1,39 @@
+# Install OSM with the following command
+
+az group create --name myResourceGroup --location eastus
+
+az aks create \
+  --resource-group myResourceGroup \
+  --name myAKSCluster \
+  --enable-addons open-service-mesh
+
+  # For existing AKS Cluster
+
+  az aks enable-addons \
+  --resource-group myResourceGroup \
+  --name myAKSCluster \
+  --addons open-service-mesh
+
+
+ # Verify OSM installed on the Cluster
+
+ az aks show --resource-group myResourceGroup --name myAKSCluster  --query 'addonProfiles.openServiceMesh.enabled'
+
+
+ # Verify OSM is installed in the cluster 
+
+ kubectl get deployment -n kube-system osm-controller -o=jsonpath='{$.spec.template.spec.containers[:1].image}'
+
+ # deployments, pods on OSM 
+
+ kubectl get deployments -n kube-system --selector app.kubernetes.io/name=openservicemesh.io
+kubectl get pods -n kube-system --selector app.kubernetes.io/name=openservicemesh.io
+kubectl get services -n kube-system --selector app.kubernetes.io/name=openservicemesh.io
+
+# Verify the configuration of OSM 
+
+kubectl get meshconfig osm-mesh-config -n kube-system -o yaml
+
+# Delete the Cluster 
+
+az group delete --name myResourceGroup --yes --no-wait

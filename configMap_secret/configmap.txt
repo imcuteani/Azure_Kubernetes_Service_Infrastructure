@@ -1,0 +1,39 @@
+# Configure ConfigMap 
+
+export RESOURCE_GROUP=techademy
+export CLUSTER_NAME=techademy-aks
+
+az aks show -n $CLUSTER_NAME -g $RESOURCE_GROUP
+
+# Create AKS Cluster 
+
+az aks create \
+ -g $RESOURCE_GROUP \
+ -n $CLUSTER_NAME \
+ --node-count 1 \
+ --node-vm-size Standard_B2s \
+ --generate-ssh-keys \
+ --enable-addons http_application_routing
+
+ # Get the administrative config 
+
+ az aks get-credentials -n $CLUSTER_NAME -g $RESOURCE_GROUP
+
+# Configure HTTP application routing add-on
+az aks show \
+  -g $RESOURCE_GROUP \
+  -n $CLUSTER_NAME \
+  -o tsv \
+  --query addonProfiles.httpApplicationRouting.config.HTTPApplicationRoutingZoneName
+
+  # Create the configmap.yaml 
+
+  # check the configMap 
+
+  kubectl get configmap techademy-aks 
+
+  # Deploy the frontend.yaml & check your work 
+
+  kubectl get deploy contoso-ship-manager-frontend
+
+
