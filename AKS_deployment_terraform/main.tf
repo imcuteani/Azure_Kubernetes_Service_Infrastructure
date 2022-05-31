@@ -20,8 +20,10 @@ resource "azurerm_kubernetes_cluster" "example" {
 
   default_node_pool {
     name                = "techademy"
-    node_count          = 1
+    node_count          = 3
     vm_size             = "Standard_D2_V2"
+    min_count = 1
+    max_count = 5
     enable_auto_scaling = true
 
   }
