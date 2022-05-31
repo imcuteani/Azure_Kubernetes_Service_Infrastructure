@@ -1,19 +1,27 @@
 # CLI command to use Azure vNet subnet for CNI deployment
 
+az group create --name techademy --location eastasia
+
+az network vnet create -g techademy -n techademyVnet --address-prefix 10.0.0.0/16 \
+    --subnet-name aksSubnet --subnet-prefix 10.0.0.0/24
+
+az network vnet subnet create -g techademy --vnet-name techademyVnet -n aksSubnet \
+    --address-prefixes 10.0.0.0/24 --network-security-group techademynsg --route-table techademyrt
+
 $ az network vnet subnet list \
-    --resource-group myVnet \
-    --vnet-name myVnet \
+    --resource-group techademy \
+    --vnet-name techademyVnet \
     --query "[0].id" --output tsv
 
-/subscriptions/<guid>/resourceGroups/myVnet/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/default
+/subscriptions/07ee4d7d-00ae-4ebd-b4fd-ff11533f5667/resourceGroups/techademy/providers/Microsoft.Network/virtualNetworks/aks-vnet-23904832/subnets/techademycni
 
 # Create AKS Cluster with the subnetId value retrieved 
 
 az aks create \
-    --resource-group myResourceGroup \
-    --name myAKSCluster \
+    --resource-group techademy \
+    --name techademyaks-cni \
     --network-plugin azure \
-    --vnet-subnet-id <subnet-id> \
+    --vnet-subnet-id /subscriptions/07ee4d7d-00ae-4ebd-b4fd-ff11533f5667/resourceGroups/techademy/providers/Microsoft.Network/virtualNetworks/techademyVnet/subnets/aksSubnet
     --docker-bridge-address 172.17.0.1/16 \
     --dns-service-ip 10.2.0.10 \
     --service-cidr 10.2.0.0/24 \
