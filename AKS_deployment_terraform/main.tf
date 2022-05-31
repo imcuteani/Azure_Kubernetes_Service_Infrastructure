@@ -13,14 +13,16 @@ resource "azurerm_kubernetes_cluster" "example" {
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   dns_prefix          = "techademy"
+  open_service_mesh_enabled = true
+   
 
 
 
   default_node_pool {
-    name                = "techademynode"
+    name                = "techademy"
     node_count          = 1
     vm_size             = "Standard_D2_V2"
-    enable_auto_scaling = false
+    enable_auto_scaling = true
 
   }
 
