@@ -7,6 +7,6 @@ data:
   config.js: |
     const config = (() => {
       return {
-        'VUE_APP_BACKEND_BASE_URL': 'http://ship-manager-backend.{yourdns-zone}.aksapp.io',
+        'VUE_APP_BACKEND_BASE_URL': 'http://ship-manager-backend.6a51a54fce694d2da974.eastasia.aksapp.io',
       }
     })()
