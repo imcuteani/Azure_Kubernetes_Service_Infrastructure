@@ -16,7 +16,13 @@ resource "azurerm_kubernetes_cluster" "example" {
     name       = "default"
     node_count = 1
     vm_size    = "Standard_D2_v2"
+    enable_auto_scaling = true 
+    max_count = 8
+    min_count = 1
 
+  }
+  auto_scaler_profile {
+    
   }
   service_principal {
     client_id     = var.client_id
